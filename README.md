@@ -11,7 +11,7 @@ A small, read-only integration for [Evening Energy](https://github.com/funkmaste
 
 ## Sensors
 
-Six sensors provide low (conservative), middle, and high (optimistic) excess estimates in **kWh** and **battery percentage**. Energy is measured at the AC export side; percentage is the battery SoC consumed including calibrated discharge losses. `planned_peak_excess` attributes show the next modeled evening-window allowance. Live sensor values are zero outside the configured peak period.
+Six sensors provide low (conservative), middle, and high (optimistic) excess estimates in **kWh** and **battery percentage**. Energy is measured at the AC export side; percentage is the battery SoC consumed including calibrated discharge losses. `planned_peak_excess` attributes show the next modeled evening-window allowance. Main sensor values continuously report the forecast surplus, including outside the configured peak period. The `peak_active` attribute separately indicates whether that tariff window is active.
 
 Use the **low energy** sensor for a cautious automation allowance. Untrained models and stale inputs produce zero; an unreachable app or expired forecast makes sensors unavailable. Your automations should require an available numeric state and check `forecast_ready` and `peak_active`.
 
