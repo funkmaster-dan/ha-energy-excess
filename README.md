@@ -7,7 +7,7 @@ A small, read-only integration for [Evening Energy](https://github.com/funkmaste
 1. In HACS, open **Custom repositories**, add `https://github.com/funkmaster-dan/ha-energy-excess`, and choose **Integration**.
 2. Download Energy Excess and restart Home Assistant.
 3. Under **Settings → Devices & services → Add integration**, select **Energy Excess**.
-4. Enter your app URL, for example `http://192.168.1.204:8099`. Update the URL or polling interval later using **Configure**.
+4. Enter your app URL, for example `http://your-server:8099`. Update the URL or polling interval later using **Configure**.
 
 ## Sensors
 
