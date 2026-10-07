@@ -11,9 +11,14 @@ A small, read-only integration for [Evening Energy](https://github.com/funkmaste
 
 ## Sensors
 
-Six sensors provide low (conservative), middle, and high (optimistic) excess estimates in **kWh** and **battery percentage**. Energy is measured at the AC export side; percentage is the battery SoC consumed including calibrated discharge losses. `planned_peak_excess` attributes show the next modeled evening-window allowance. Main sensor values continuously report the forecast surplus, including outside the configured peak period. The `peak_active` attribute separately indicates whether that tariff window is active.
+Twelve sensors provide low (conservative), middle and high (optimistic) estimates in kWh and battery percentage:
 
-Use the **low energy** sensor for a cautious automation allowance. Untrained models and stale inputs produce zero; an unreachable app or expired forecast makes sensors unavailable. Your automations should require an available numeric state and check `forecast_ready` and `peak_active`.
+- **Excess energy**: stored battery kWh above forecast household needs and minimum/reserve, without a peak-window export power/time cap. Battery % is its share of capacity. Existing excess sensor IDs are preserved; their values now mean actual stored excess rather than the former peak export allowance.
+- **Achievable export energy**: AC energy deliverable to the grid during the remaining/current or next peak, after losses and inverter/time limits. Its battery % is the SoC consumed including discharge losses.
+
+Both kWh quantities are also exposed as sensor attributes (`excess_kwh`, `achievable_export_kwh`). `energy_basis` labels the units' meaning. `peak_active` independently indicates tariff timing. Update the Evening Energy app before upgrading this integration; v0.2.0 requires its separated API fields.
+
+Untrained/incompatible models or unavailable HA inputs produce zero; an unreachable app or expired forecast makes sensors unavailable. Your existing automation remains attached to the middle excess sensor and therefore follows stored-energy excess. For an automation deliberately based on what can be exported within a peak window, use the distinct achievable-export sensor instead.
 
 All forecasting settings and training live in the app's ordinary configuration panels. This integration has no control actions, services, or switches.
 

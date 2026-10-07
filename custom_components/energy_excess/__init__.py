@@ -17,6 +17,7 @@ async def async_setup_entry(hass,entry):
                 async with session.get(options['url'].rstrip('/')+'/api/excess') as response:
                     response.raise_for_status(); data=await response.json()
             if not data.get('valid_until'): raise UpdateFailed('Forecast is not available yet')
+            if 'achievable_export_kwh' not in data: raise UpdateFailed('Update Evening Energy to separate battery excess and achievable export')
             return data
         except (ValueError,KeyError) as exc: raise UpdateFailed(str(exc)) from exc
     coordinator=DataUpdateCoordinator(hass,logging.getLogger(__name__),name='Energy Excess',config_entry=entry,update_method=update,update_interval=timedelta(seconds=options.get('poll_seconds',60)))
